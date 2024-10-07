@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+</head>
+<body>
+    <h1>Weather App</h1>
+    
+    <!-- City selection form with dropdown -->
+    <form method="POST" action="/weather">
+        <label for="city">Select City:</label>
+        <select id="city" name="city" required>
+            <option value="">--Select a City--</option>
+            <option value="London">London</option>
+            <option value="New York">New York</option>
+            <option value="Paris">Paris</option>
+            <option value="Tokyo">Tokyo</option>
+            <option value="Sydney">Sydney</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Moscow">Moscow</option>
+            <option value="Rio de Janeiro">Rio de Janeiro</option>
+            <option value="Cape Town">Cape Town</option>
+            <option value="Dubai">Dubai</option>
+            <option value="Dhaka">Dhaka</option>
+        </select>
+        <button type="submit">Get Weather</button>
+    </form>
+
+    <!-- Display error messages if any -->
+    {% if error %}
+        <p style="color:red">{{ error }}</p>
+    {% endif %}
+
+    <!-- Display weather information if available -->
+    {% if weather %}
+        <h2>Weather in {{ weather.city }}, {{ weather.country }}</h2>
+        <p><strong>Temperature:</strong> {{ weather.temperature }} °C</p>
+        <p><strong>Feels Like:</strong> {{ weather.feels_like }} °C</p>
+        <p><strong>Description:</strong> {{ weather.description }}</p>
+        <p><strong>Humidity:</strong> {{ weather.humidity }}%</p>
+        <p><strong>Wind Speed:</strong> {{ weather.wind_speed }} m/s</p>
+        <p><strong>Pressure:</strong> {{ weather.pressure }} hPa</p>
+        <p><strong>Sunrise:</strong> {{ weather.sunrise }}</p>
+        <p><strong>Sunset:</strong> {{ weather.sunset }}</p>
+    {% endif %}
+</body>
+</html>
