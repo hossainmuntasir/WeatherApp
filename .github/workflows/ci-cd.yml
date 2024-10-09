@@ -1,0 +1,47 @@
+name: CI/CD Pipeline for Flask App
+
+# Trigger the workflow on any push to the master branch
+on:
+  push:
+    branches:
+      - master
+
+# Define the jobs to be run
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Run the jobs on the latest Ubuntu environment
+
+    steps:
+    # Step 1: Check out the code from GitHub repository
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Step 2: Set up Python
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'  # Set the desired Python version
+
+    # Step 3: Install dependencies
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    # Step 4: Run unit tests
+    - name: Run unit tests
+      run: |
+        python -m unittest discover -s tests
+
+    # Step 5: Deploy to AWS Elastic Beanstalk (only if tests pass)
+    - name: Deploy to AWS Elastic Beanstalk
+      if: success()  # Only deploy if all previous steps (tests) are successful
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: ${{ secrets.AWS_REGION }}
+        EB_ENV_NAME: ${{ secrets.EB_ENV_NAME }}
+      run: |
+        pip install awsebcli
+        eb init -p python-3.8 --region $AWS_REGION
+        eb deploy $EB_ENV_NAME
