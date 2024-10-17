@@ -59,4 +59,4 @@ def get_weather():
         return render_template('index.html', error=f"An error occurred: {str(e)}")
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=80)
+    app.run(host="0.0.0.0", port=8000)
