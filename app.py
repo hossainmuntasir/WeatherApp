@@ -1,5 +1,7 @@
 from flask import Flask, request, render_template, jsonify
-import requests
+import urllib.request
+import urllib.parse  # Import this to encode the city name
+import json
 from datetime import datetime
 
 app = Flask(__name__)
@@ -19,16 +21,17 @@ def get_weather():
         # If no city is selected, return an error message
         return render_template('index.html', error="Please select a city")
 
+    # Encode the city name to handle spaces and special characters
+    city_encoded = urllib.parse.quote(city)
+
     # Build the API request URL
-    url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={API_KEY}&units=metric"
+    url = f"http://api.openweathermap.org/data/2.5/weather?q={city_encoded}&appid={API_KEY}&units=metric"
     
     try:
-        # Make the request to OpenWeatherMap
-        response = requests.get(url)
-        response.raise_for_status()  # Raise an error for bad status codes
-
-        data = response.json()  # Parse the JSON response
-
+        # Make the request to OpenWeatherMap using urllib
+        with urllib.request.urlopen(url) as response:
+            data = json.loads(response.read().decode())  # Parse the JSON response
+        
         # Convert sunrise and sunset from UNIX timestamp to readable format
         sunrise = datetime.utcfromtimestamp(data["sys"]["sunrise"]).strftime('%H:%M:%S')
         sunset = datetime.utcfromtimestamp(data["sys"]["sunset"]).strftime('%H:%M:%S')
@@ -50,7 +53,7 @@ def get_weather():
         # Render the weather information to the template
         return render_template('index.html', weather=weather_info)
 
-    except requests.exceptions.HTTPError:
+    except urllib.error.HTTPError:
         # Handle the case where the city is not found or other HTTP errors
         return render_template('index.html', error="City not found or invalid API response")
     
