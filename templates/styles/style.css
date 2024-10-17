@@ -1,0 +1,96 @@
+/* Reset some default margins and paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #56CCF2, #2F80ED); /* Light blue to dark blue gradient */
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+form {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    text-align: center;
+}
+
+form label, form select, form button {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+form select {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.6);
+    font-size: 1rem;
+}
+
+form button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: #27AE60;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #219653;
+}
+
+/* Error message style */
+p.error {
+    color: #ff6b6b;
+    font-size: 1rem;
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* Weather information */
+.weather-info {
+    margin-top: 30px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    max-width: 500px;
+    text-align: center;
+}
+
+.weather-info h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.weather-info p {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+/* Sunrise and sunset special styles */
+.weather-info p strong {
+    color: #F2C94C; /* Bright yellow for sunrise and sunset */
+}
+
