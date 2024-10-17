@@ -4,29 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
-    <style>/* Reset some default margins and paddings */
+    <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #56CCF2, #2F80ED); /* Light blue to dark blue gradient */
+            background: linear-gradient(135deg, #56CCF2, #2F80ED);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             color: white;
         }
-        
+
         h1 {
             text-align: center;
             font-size: 2.5rem;
             margin-bottom: 20px;
         }
-        
+
         form {
             background: rgba(255, 255, 255, 0.2);
             padding: 20px;
@@ -35,21 +35,21 @@
             backdrop-filter: blur(10px);
             text-align: center;
         }
-        
-        form label, form select, form button {
+
+        form label, form select, form input, form button {
             display: block;
             width: 100%;
             margin-bottom: 15px;
         }
-        
-        form select {
+
+        form select, form input {
             padding: 10px;
             border-radius: 5px;
             border: none;
             background-color: rgba(255, 255, 255, 0.6);
             font-size: 1rem;
         }
-        
+
         form button {
             padding: 10px 20px;
             border-radius: 5px;
@@ -60,20 +60,18 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
-        
+
         form button:hover {
             background-color: #219653;
         }
-        
-        /* Error message style */
+
         p.error {
             color: #ff6b6b;
             font-size: 1rem;
             margin-top: 10px;
             text-align: center;
         }
-        
-        /* Weather information */
+
         .weather-info {
             margin-top: 30px;
             padding: 20px;
@@ -84,34 +82,31 @@
             max-width: 500px;
             text-align: center;
         }
-        
+
         .weather-info h2 {
             font-size: 2rem;
             margin-bottom: 15px;
         }
-        
+
         .weather-info p {
             font-size: 1.2rem;
             margin-bottom: 10px;
         }
-        
-        /* Sunrise and sunset special styles */
-        .weather-info p strong {
-            color: #F2C94C; /* Bright yellow for sunrise and sunset */
-        }
-        
-        </style>
-    
+    </style>
 </head>
 <body>
     <div>
         <h1>Weather App</h1>
 
-        <!-- City selection form with dropdown -->
+        <!-- City selection form -->
         <form method="POST" action="/weather">
-            <label for="city">Select City:</label>
-            <select id="city" name="city" required>
-                <option value="">--Select a City--</option>
+            <label for="city">Enter or Select a City:</label>
+            <!-- Input field to type city name -->
+            <input id="cityInput" name="city" type="text" placeholder="Type city name here">
+
+            <!-- Dropdown to select city -->
+            <select id="cityDropdown" name="cityDropdown">
+                <option value="">--Or Select a City--</option>
                 <option value="London">London</option>
                 <option value="New York">New York</option>
                 <option value="Paris">Paris</option>
@@ -124,8 +119,9 @@
                 <option value="Dubai">Dubai</option>
                 <option value="Dhaka">Dhaka</option>
                 <option value="Geelong">Geelong</option>
-                <option value="Melbourne, AU">Melbourne</option>
+                <option value="Melbourne">Melbourne</option>
             </select>
+
             <button type="submit">Get Weather</button>
         </form>
 
@@ -151,26 +147,28 @@
     </div>
 
     <script>
-        /* Insert the JavaScript code from above here */
-        // JavaScript to handle form submission and add a loading indicator
+        // JavaScript to handle form submission and prefill city input if selected from dropdown
+        document.getElementById('cityDropdown').addEventListener('change', function() {
+            var selectedCity = this.value;
+            document.getElementById('cityInput').value = selectedCity; // Set input field value to selected city
+        });
 
-document.addEventListener('DOMContentLoaded', function () {
-    const form = document.querySelector('form');
-    const button = form.querySelector('button');
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.querySelector('form');
+            const button = form.querySelector('button');
 
-    // Show a "Loading" message when form is submitted
-    form.addEventListener('submit', function () {
-        button.textContent = "Loading...";
-        button.disabled = true;
-    });
+            // Show a "Loading..." message when form is submitted
+            form.addEventListener('submit', function () {
+                button.textContent = "Loading...";
+                button.disabled = true;
+            });
 
-    // Enable the button again after the page reload
-    window.addEventListener('load', function () {
-        button.textContent = "Get Weather";
-        button.disabled = false;
-    });
-});
-
+            // Reset button text on page load
+            window.addEventListener('load', function () {
+                button.textContent = "Get Weather";
+                button.disabled = false;
+            });
+        });
     </script>
 </body>
 </html>
